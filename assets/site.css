@@ -1,0 +1,117 @@
+/* --- SimulaInvest Identity Theme --- */
+
+:root {
+  --bg-main: #0E1715;
+  --bg-surface: #132C21;
+  --bg-surface-hover: #163528;
+  --border-color: #1F3C30;
+  --text-primary: #EAEAEA;
+  --text-secondary: #AAB4B0;
+  --font-mono: 'Courier New', Courier, monospace;
+  --color-green: #00A54B;
+  --color-red: #E63939;
+}
+
+body {
+  font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  margin: 0;
+  line-height: 1.6;
+}
+
+.container { max-width: 1600px; margin: 0 auto; padding: 1.5rem; }
+
+header { text-align: center; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border-color); padding-bottom: 1rem; }
+header h1 { font-size: 2.25rem; font-weight: 800; margin: 0; color: #fff; text-transform: uppercase; }
+header p { color: var(--text-secondary); font-size: 1rem; margin-top: 0.25rem; }
+header .logo { height: 60px; width: auto; margin-bottom: 0.5rem; }
+
+/* --- Top Navigation --- */
+.top-nav { display: flex; justify-content: space-between; align-items: center; margin: 0.5rem 0 1rem 0; }
+.top-nav .brand { font-weight: 800; color: var(--text-primary); }
+.top-nav ul { list-style: none; display: flex; gap: 1rem; margin: 0; padding: 0; }
+.top-nav a { color: var(--text-secondary); text-decoration: none; }
+.top-nav a:hover { color: var(--text-primary); }
+
+/* --- Hero --- */
+.hero { display: grid; grid-template-columns: 1.5fr 1fr; gap: 1.5rem; align-items: center; margin-bottom: 1.5rem; }
+.hero-text h2 { font-size: 2rem; margin: 0 0 0.75rem 0; color: var(--text-primary); font-weight: 800; }
+.hero-actions { display: flex; gap: 0.75rem; }
+.hero-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; }
+.hero-card { background-color: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 6px; padding: 1rem; text-align: center; }
+.hero-card span { font-size: 1.5rem; display: block; }
+.hero-card div { margin-top: 0.25rem; color: var(--text-secondary); font-weight: 600; }
+
+/* --- Layout --- */
+.main-content { display: grid; grid-template-columns: 1fr 380px; gap: 1.5rem; }
+.left-column, .right-column { display: flex; flex-direction: column; gap: 1.5rem; }
+
+/* --- Card --- */
+.card { background-color: var(--bg-surface); padding: 1.5rem; border-radius: 6px; border: 1px solid var(--border-color); }
+.card h2 { margin-top: 0; font-size: 1.25rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.75rem; margin-bottom: 1.5rem; text-transform: uppercase; color: var(--text-secondary); font-weight: 600; }
+.card h3 { margin: 0.5rem 0 0.75rem 0; font-size: 1rem; color: var(--text-primary); font-weight: 600; text-transform: none; }
+
+.text-note { color: var(--text-secondary); font-size: 0.95rem; }
+.disclaimer { color: var(--text-secondary); font-size: 0.9rem; border-left: 3px solid var(--border-color); padding-left: 0.75rem; }
+
+.reference-buttons { display: flex; gap: 0.5rem; margin-top: 0.5rem; }
+.reference-buttons a { font-size: 0.9rem; text-decoration: none; color: var(--text-primary); padding: 0.35rem 0.75rem; border-radius: 6px; border: 1px solid var(--border-color); background-color: transparent; }
+.reference-buttons a:hover { background-color: var(--bg-surface-hover); border-color: var(--text-secondary); }
+
+/* --- Screener Table --- */
+.asset-screener table { width: 100%; border-collapse: collapse; }
+.asset-screener th, .asset-screener td { border-bottom: 1px solid var(--border-color); padding: 0.8rem 1rem; text-align: left; vertical-align: middle; font-family: var(--font-mono); }
+.asset-screener th { font-size: 0.8rem; text-transform: uppercase; color: var(--text-secondary); }
+.asset-screener tr:hover { background-color: var(--bg-surface-hover); cursor: pointer; }
+.asset-screener tr.selected { background-color: rgba(0, 165, 75, 0.1); border-left: 3px solid var(--color-green); }
+.asset-screener td:first-child { font-weight: bold; font-size: 1.1rem; text-align: left; color: var(--text-primary); }
+.asset-screener .links a { font-size: 0.8rem; text-decoration: none; color: var(--text-primary); padding: 0.2rem 0.5rem; border-radius: 4px; border: 1px solid var(--border-color); white-space: nowrap; }
+.asset-screener .links a:hover { background-color: var(--bg-surface-hover); border-color: var(--text-secondary); }
+.table-actions { display: flex; gap: 0.5rem; }
+.btn.small { padding: 0.35rem 0.6rem; font-size: 0.85rem; }
+
+/* --- Screener controls --- */
+.screener-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+.screener-header h2 { margin: 0; padding: 0; border: none; }
+.export-btn { background: none; color: var(--text-secondary); border: 1px solid var(--border-color); border-radius: 6px; padding: 0.5rem 1rem; font-size: 0.9rem; cursor: pointer; transition: all 0.2s; }
+.export-btn:hover { background-color: var(--bg-surface-hover); border-color: var(--text-secondary); color: var(--text-primary); }
+.screener-controls { display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; margin-bottom: 0.75rem; }
+.screener-controls input, .screener-controls select { background-color: var(--bg-main); color: var(--text-primary); padding: 0.6rem; border: 1px solid var(--border-color); border-radius: 6px; font-size: 0.95rem; box-sizing: border-box; font-family: var(--font-mono); }
+
+/* --- Buttons --- */
+.btn { background: none; color: var(--text-primary); border: 1px solid var(--border-color); border-radius: 6px; padding: 0.5rem 1rem; font-size: 0.95rem; cursor: pointer; transition: all 0.2s; text-decoration: none; display: inline-block; }
+.btn:hover { background-color: var(--bg-surface-hover); border-color: var(--text-secondary); }
+.btn.primary { background-color: var(--color-green); color: #04110D; border-color: var(--color-green); }
+.btn.primary:hover { filter: brightness(1.05); }
+
+/* --- Forms para Simulador --- */
+.form-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+.form-inline { display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; }
+.form-inline input { width: 100px; background-color: var(--bg-main); color: var(--text-primary); border: 1px solid var(--border-color); border-radius: 4px; padding: 0.4rem; font-family: var(--font-mono); }
+.result-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem; }
+
+/* --- Badges --- */
+.badge-green { background-color: rgba(0,165,75,0.15); color: var(--color-green); border: 1px solid rgba(0,165,75,0.4); padding: 0.25rem 0.5rem; border-radius: 6px; font-size: 0.8rem; }
+.badge-red { background-color: rgba(230,57,57,0.12); color: var(--color-red); border: 1px solid rgba(230,57,57,0.3); padding: 0.25rem 0.5rem; border-radius: 6px; font-size: 0.8rem; }
+
+/* --- How it works --- */
+.how-it-works .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+.how-it-works .step { background-color: var(--bg-surface-hover); border: 1px solid var(--border-color); border-radius: 6px; padding: 1rem; display: flex; align-items: center; gap: 0.75rem; }
+.how-it-works .step-num { width: 28px; height: 28px; border-radius: 50%; background-color: var(--color-green); color: #04110D; display: inline-flex; align-items: center; justify-content: center; font-weight: 800; }
+.how-it-works .step-text { color: var(--text-primary); font-weight: 600; }
+
+/* --- Responsivo --- */
+@media (max-width: 1200px) {
+  .main-content { grid-template-columns: 1fr; }
+  .container { padding: 1rem; }
+  .card { padding: 1rem; }
+  header h1 { font-size: 1.8rem; }
+  .hero { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 768px) {
+  .asset-screener th, .asset-screener td { padding: 0.5rem; font-size: 0.9rem; }
+  .asset-screener td:first-child { font-size: 1rem; }
+  .screener-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
+}

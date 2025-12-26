@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simula Invest</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <img src="assets/logo.png" alt="Simula Invest Logo" class="logo">
+            <h1>Simula Invest</h1>
+            <p>Análise de ações e FIIs da B3</p>
+        </header>
+        <!-- Hero -->
+        <section class="hero">
+            <div class="hero-text">
+                <h2>Planeje, simule e invista com clareza</h2>
+                <div class="hero-actions">
+                    <a class="btn primary" href="#simulador">Começar grátis</a>
+                    <a class="btn" href="#simulador">Ver demo do simulador</a>
+                </div>
+            </div>
+            <div class="hero-cards">
+                <div class="hero-card"><span>📈</span><div>Valorização</div></div>
+                <div class="hero-card"><span>💰</span><div>Dividendos</div></div>
+                <div class="hero-card"><span>🏢</span><div>FIIs</div></div>
+            </div>
+        </section>
+        <!-- Top Navigation -->
+        <nav class="top-nav">
+            <div class="brand">Simulainvest</div>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#explorar">Explorar</a></li>
+                <li><a href="#simulador">Simulador</a></li>
+            </ul>
+        </nav>
+        <div class="main-content">
+            <div class="left-column">
+                
+
+                <!-- Screener de Ativos (Yahoo/Google) -->
+                <section class="card asset-screener" id="explorar">
+                    <div class="screener-header">
+                        <h2>Explorar Ativos</h2>
+                        <button class="export-btn" id="refreshScreener">Atualizar</button>
+                    </div>
+                    <div class="screener-controls">
+                        <input id="addTicker" type="text" placeholder="Adicionar ticker B3 (ex.: PETR4)" />
+                        <select id="addTipo">
+                            <option value="acao">Ação</option>
+                            <option value="fii">FII</option>
+                        </select>
+                        <button class="btn primary" id="btnAddTicker">Adicionar</button>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Ativo</th>
+                                <th>Preço</th>
+                                <th>Variação</th>
+                                <th>DY (TTM)</th>
+                                <th>Ações</th>
+                                <th>Links</th>
+                            </tr>
+                        </thead>
+                        <tbody id="screenerBody">
+                            <!-- preenchido por JS -->
+                        </tbody>
+                    </table>
+                </section>
+
+                <!-- Como funciona -->
+                <section class="card how-it-works" id="home">
+                    <h2>Como funciona o Simulainvest</h2>
+                    <div class="steps">
+                        <div class="step"><span class="step-num">1</span><div class="step-text">Defina seu objetivo</div></div>
+                        <div class="step"><span class="step-num">2</span><div class="step-text">Simule lucro e tempo</div></div>
+                        <div class="step"><span class="step-num">3</span><div class="step-text">Acompanhe e ajuste</div></div>
+                    </div>
+                </section>
+
+                <section class="card" id="simulador">
+                    <h2>Simulador de lucro‑alvo</h2>
+                    <div class="form-grid">
+                        <div class="filter-group">
+                            <label for="inputI0">Investimento inicial I₀ (R$)</label>
+                            <input id="inputI0" type="number" min="0" step="0.01" placeholder="Ex.: 10000" />
+                        </div>
+                        <div class="filter-group">
+                            <label for="inputL">Meta de lucro L (R$)</label>
+                            <input id="inputL" type="number" min="0" step="0.01" placeholder="Ex.: 5000" />
+                        </div>
+                        <div class="filter-group">
+                            <label for="inputG">Crescimento anual g (%)</label>
+                            <input id="inputG" type="number" step="0.01" placeholder="Ex.: 12" />
+                        </div>
+                        <div class="filter-group">
+                            <label for="inputY">Dividendos anuais y (%)</label>
+                            <input id="inputY" type="number" step="0.01" placeholder="Ex.: 6" />
+                        </div>
+                        <div class="filter-group">
+                            <label for="toggleReinvest">Reinvestir dividendos?</label>
+                            <select id="toggleReinvest">
+                                <option value="sim">Sim</option>
+                                <option value="nao">Não</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <button id="btnCalcular" class="btn">Calcular tempo</button>
+                        </div>
+                    </div>
+                    <div class="result-grid">
+                        <div>
+                            <strong>Determinístico</strong>
+                            <p id="resDet">Preencha os campos e calcule.</p>
+                        </div>
+                        <div>
+                            <strong>Monte Carlo (β)</strong>
+                            <div class="form-inline">
+                                <span>μ (%)</span><input id="mcMu" type="number" step="0.01" placeholder="Ex.: 10" />
+                                <span>σ (%)</span><input id="mcSigma" type="number" step="0.01" placeholder="Ex.: 25" />
+                                <span>N</span><input id="mcN" type="number" step="100" value="1000" />
+                                <span>Horizonte (anos)</span><input id="mcH" type="number" step="1" value="10" />
+                                <button id="btnMonteCarlo" class="btn">Simular</button>
+                            </div>
+                            <p id="resMc">Informe μ, σ e simule.</p>
+                        </div>
+                    </div>
+                    <p class="text-note">Fórmulas: sem reinvestimento $t = \frac{\ln(1+L/I_0)}{\ln(1+g)}$; com reinvestimento $t = \frac{\ln(1+L/I_0)}{\ln(1+g+y)}$.</p>
+                </section>
+
+                <!-- outras seções do plano foram movidas para README e não aparecem no site -->
+            </div>
+
+            <div class="right-column"></div>
+        </div>
+
+        <footer style="margin-top:2rem; border-top:1px solid var(--border-color); padding-top:1rem; color:var(--text-secondary);">
+            <small>© 2025 Simula Invest. Referências por deep link; dados próprios/licenciados.</small>
+        </footer>
+
+        <script>
+            (function() {
+                // referências removidas do site; nenhum deep link é gerado aqui
+
+                // --- Screener de Ativos (Yahoo Finance) ---
+                const defaultTickers = [
+                    { t: 'PETR4', tipo: 'acao' },
+                    { t: 'VALE3', tipo: 'acao' },
+                    { t: 'ITUB4', tipo: 'acao' },
+                    { t: 'HGLG11', tipo: 'fii' }
+                ];
+                const screenerBody = document.getElementById('screenerBody');
+                const addTicker = document.getElementById('addTicker');
+                const addTipo = document.getElementById('addTipo');
+                const btnAddTicker = document.getElementById('btnAddTicker');
+                const btnRefresh = document.getElementById('refreshScreener');
+
+                function yfSymbol(b3Ticker) {
+                    // Yahoo usa sufixo .SA para B3
+                    return `${b3Ticker}.SA`;
+                }
+
+                function googleFinanceLink(b3Ticker) {
+                    // Google Finance usa :BVMF
+                    return `https://www.google.com/finance/quote/${encodeURIComponent(b3Ticker)}:BVMF`;
+                }
+
+                function yahooFinanceLink(b3Ticker) {
+                    return `https://finance.yahoo.com/quote/${encodeURIComponent(b3Ticker)}.SA`;
+                }
+
+                async function fetchYahooQuotes(symbols) {
+                    const url = `https://query1.finance.yahoo.com/v7/finance/quote?symbols=${encodeURIComponent(symbols.join(','))}`;
+                    try {
+                        const res = await fetch(url, { mode: 'cors' });
+                        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                        const data = await res.json();
+                        return data.quoteResponse.result || [];
+                    } catch (e) {
+                        console.warn('Falha ao buscar Yahoo Finance:', e.message);
+                        return [];
+                    }
+                }
+
+                function renderRow(entry, tipo) {
+                    const b3 = entry.symbol.replace('.SA','');
+                    const price = entry.regularMarketPrice ?? '-';
+                    const chgPct = entry.regularMarketChangePercent ?? null;
+                    const dy = entry.trailingAnnualDividendYield ?? entry.dividendYield ?? null;
+                    const chgBadge = chgPct == null ? '<span class="badge-red" style="opacity:.4">n/d</span>' : (chgPct >= 0 ? `<span class="badge-green">+${chgPct.toFixed(2)}%</span>` : `<span class="badge-red">${chgPct.toFixed(2)}%</span>`);
+                    const dyText = dy == null ? 'n/d' : `${(dy*100).toFixed(2)}%`;
+                    const inv10 = tipo === 'fii' ? 'https://investidor10.com.br/fiis/' : 'https://investidor10.com.br/';
+                    const statusLink = tipo === 'fii' ? `https://statusinvest.com.br/fundos-imobiliarios/${encodeURIComponent(b3)}` : `https://statusinvest.com.br/acoes/${encodeURIComponent(b3)}`;
+                    return `<tr>
+                        <td>${b3}</td>
+                        <td>R$ ${price !== '-' ? price.toFixed(2) : '-'}</td>
+                        <td>${chgBadge}</td>
+                        <td>${dyText}</td>
+                        <td class="table-actions">
+                            <a class="btn small primary" href="#simulador">Simular lucro‑alvo</a>
+                            <a class="btn small" href="${statusLink}" target="_blank" rel="noopener">Ver no Status Invest</a>
+                        </td>
+                        <td class="links">
+                            <a href="${googleFinanceLink(b3)}" target="_blank" rel="noopener">Google</a>
+                            <a href="${yahooFinanceLink(b3)}" target="_blank" rel="noopener">Yahoo</a>
+                            <a href="${inv10}" target="_blank" rel="noopener">Investidor10</a>
+                            <a href="${statusLink}" target="_blank" rel="noopener">Status Invest</a>
+                        </td>
+                    </tr>`;
+                }
+
+                async function loadScreener(list) {
+                    screenerBody.innerHTML = '<tr><td colspan="5">Carregando...</td></tr>';
+                    const symbols = list.map(x => yfSymbol(x.t));
+                    const result = await fetchYahooQuotes(symbols);
+                    if (!result.length) {
+                        screenerBody.innerHTML = '<tr><td colspan="5">Não foi possível obter cotações agora (CORS/API). Tente novamente mais tarde.</td></tr>';
+                        return;
+                    }
+                    const mapBySymbol = Object.fromEntries(result.map(r => [r.symbol, r]));
+                    const rows = list.map(x => {
+                        const entry = mapBySymbol[yfSymbol(x.t)] || { symbol: yfSymbol(x.t) };
+                        return renderRow(entry, x.tipo);
+                    }).join('');
+                    screenerBody.innerHTML = rows;
+                }
+
+                let currentList = [...defaultTickers];
+                loadScreener(currentList);
+
+                btnAddTicker.addEventListener('click', () => {
+                    const t = (addTicker.value || '').trim().toUpperCase();
+                    const tipo = addTipo.value;
+                    if (!t) return;
+                    if (currentList.some(x => x.t === t)) return;
+                    currentList.push({ t, tipo });
+                    loadScreener(currentList);
+                    addTicker.value = '';
+                });
+                btnRefresh.addEventListener('click', () => loadScreener(currentList));
+
+                // Simulador determinístico
+                const inputI0 = document.getElementById('inputI0');
+                const inputL = document.getElementById('inputL');
+                const inputG = document.getElementById('inputG');
+                const inputY = document.getElementById('inputY');
+                const toggleReinvest = document.getElementById('toggleReinvest');
+                const btnCalcular = document.getElementById('btnCalcular');
+                const resDet = document.getElementById('resDet');
+
+                function calcDet() {
+                    const I0 = parseFloat(inputI0.value);
+                    const L = parseFloat(inputL.value);
+                    const gPct = parseFloat(inputG.value);
+                    const yPct = parseFloat(inputY.value);
+                    const reinvest = toggleReinvest.value === 'sim';
+                    if (!isFinite(I0) || !isFinite(L) || !isFinite(gPct)) {
+                        resDet.textContent = 'Preencha I₀, L e g.';
+                        return;
+                    }
+                    const g = (gPct || 0) / 100.0;
+                    const y = (yPct || 0) / 100.0;
+                    const denom = Math.log(1 + (reinvest ? g + y : g));
+                    const numer = Math.log(1 + (L / I0));
+                    if (denom <= 0 || numer <= 0) {
+                        resDet.textContent = 'Parâmetros inválidos (verifique g, y e L/I₀).';
+                        return;
+                    }
+                    const tYears = numer / denom;
+                    const months = Math.round(tYears * 12);
+                    const years = Math.floor(months / 12);
+                    const remMonths = months % 12;
+                    resDet.textContent = `Tempo estimado: ${tYears.toFixed(2)} anos (~ ${years}a ${remMonths}m)`;
+                }
+                btnCalcular.addEventListener('click', calcDet);
+
+                // Monte Carlo (GBM) simplificado
+                const mcMu = document.getElementById('mcMu');
+                const mcSigma = document.getElementById('mcSigma');
+                const mcN = document.getElementById('mcN');
+                const mcH = document.getElementById('mcH');
+                const btnMC = document.getElementById('btnMonteCarlo');
+                const resMc = document.getElementById('resMc');
+
+                function simulateMC() {
+                    const I0 = parseFloat(inputI0.value);
+                    const L = parseFloat(inputL.value);
+                    const gPct = parseFloat(inputG.value);
+                    const yPct = parseFloat(inputY.value);
+                    const muPct = parseFloat(mcMu.value);
+                    const sigmaPct = parseFloat(mcSigma.value);
+                    const N = Math.max(100, parseInt(mcN.value || '1000', 10));
+                    const H = Math.max(1, parseInt(mcH.value || '10', 10));
+                    const reinvest = toggleReinvest.value === 'sim';
+
+                    if (![I0, L, muPct, sigmaPct].every(Number.isFinite)) {
+                        resMc.textContent = 'Preencha I₀, L, μ e σ.';
+                        return;
+                    }
+                    const mu = muPct / 100.0;
+                    const sigma = sigmaPct / 100.0;
+                    const y = (yPct || 0) / 100.0;
+                    const dt = 1/12; // mensal
+                    const steps = H * 12;
+
+                    const times = [];
+                    let notReached = 0;
+                    for (let i = 0; i < N; i++) {
+                        let S = I0;
+                        let reachedAt = null;
+                        for (let k = 1; k <= steps; k++) {
+                            const z = gaussian();
+                            const drift = (mu - 0.5 * sigma * sigma) * dt;
+                            const shock = sigma * Math.sqrt(dt) * z;
+                            S = S * Math.exp(drift + shock);
+                            if (reinvest && y > 0) {
+                                S = S * (1 + y * dt);
+                            }
+                            if (S >= I0 + L && reachedAt === null) {
+                                reachedAt = k; // meses
+                            }
+                        }
+                        if (reachedAt === null) {
+                            notReached++;
+                            times.push(H * 12); // censura no horizonte
+                        } else {
+                            times.push(reachedAt);
+                        }
+                    }
+                    times.sort((a,b)=>a-b);
+                    const p = q => times[Math.floor(q * times.length)];
+                    const p10 = p(0.10), p50 = p(0.50), p90 = p(0.90);
+                    const fmt = m => `${(m/12).toFixed(2)}a (~ ${Math.floor(m/12)}a ${m%12}m)`;
+                    const probNot = (notReached / N * 100).toFixed(1);
+                    resMc.textContent = `p10: ${fmt(p10)} • p50: ${fmt(p50)} • p90: ${fmt(p90)} • Não bate no horizonte: ${probNot}%`;
+                }
+
+                function gaussian() {
+                    // Box-Muller
+                    let u = 0, v = 0;
+                    while (u === 0) u = Math.random();
+                    while (v === 0) v = Math.random();
+                    return Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
+                }
+
+                btnMC.addEventListener('click', simulateMC);
+            })();
+        </script>
+    </div>
+</body>
+</html>

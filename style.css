@@ -1,0 +1,317 @@
+
+/* --- Tema "Painel" (Trading Panel) --- */
+
+:root {
+    --bg-main: #000000;
+    --bg-surface: #101010;
+    --bg-surface-hover: #1a1a1a;
+    --border-color: #2a2a2a;
+    --text-primary: #e0e0e0;
+    --text-secondary: #888888;
+    --font-mono: 'Courier New', Courier, monospace;
+    --color-green: #00ff00;
+    --color-red: #ff0000;
+}
+:root {
+    --bg-main: #0E1715;
+    --bg-surface: #132C21;
+    --bg-surface-hover: #163528;
+    --border-color: #1F3C30;
+    --text-primary: #EAEAEA;
+    --text-secondary: #AAB4B0;
+    --font-mono: 'Courier New', Courier, monospace;
+    --color-green: #00A54B;
+    --color-red: #E63939;
+}
+    margin: 0 auto;
+    padding: 1.5rem;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 1.5rem;
+body {
+    font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+header h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0;
+    color: #fff;
+    text-transform: uppercase;
+}
+
+header p {
+    color: var(--text-secondary);
+header h1 {
+    font-size: 2.25rem;
+    font-weight: 800;
+
+header .logo {
+    height: 60px; /* Definir altura */
+    width: auto; /* Manter proporção */
+    margin-bottom: 0.5rem; /* Espaço abaixo do logo */
+}
+
+.main-content {
+.reference-buttons a {
+    font-size: 0.9rem; text-decoration: none; color: var(--text-primary);
+    padding: 0.35rem 0.75rem; border-radius: 6px; border: 1px solid var(--border-color); background-color: transparent;
+}
+
+.left-column, .right-column {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+.asset-screener td:first-child {
+    font-weight: bold;
+    font-size: 1.1rem;
+    text-align: left;
+    color: var(--text-primary);
+}
+}
+
+
+/* --- Badges and accents --- */
+.badge-green { background-color: rgba(0,165,75,0.15); color: var(--color-green); border: 1px solid rgba(0,165,75,0.4); padding: 0.25rem 0.5rem; border-radius: 6px; font-size: 0.8rem; }
+.badge-red { background-color: rgba(230,57,57,0.12); color: var(--color-red); border: 1px solid rgba(230,57,57,0.3); padding: 0.25rem 0.5rem; border-radius: 6px; font-size: 0.8rem; }
+
+/* --- Screener controls --- */
+.screener-controls { display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; margin-bottom: 0.75rem; }
+.screener-controls input, .screener-controls select { background-color: var(--bg-main); color: var(--text-primary); border: 1px solid var(--border-color); border-radius: 6px; padding: 0.5rem 0.75rem; font-family: var(--font-mono); }
+.screener-controls .primary { background-color: var(--color-green); color: #04110D; border-color: var(--color-green); }
+.screener-controls .primary:hover { filter: brightness(1.05); }
+.card h2 {
+    margin-top: 0;
+    font-size: 1.25rem;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.75rem;
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    font-weight: 600;
+}
+
+.card h3 {
+    margin: 0.5rem 0 0.75rem 0;
+    font-size: 1rem;
+    color: var(--text-primary);
+    font-weight: 600;
+    text-transform: none;
+}
+
+.text-note { color: var(--text-secondary); font-size: 0.95rem; }
+.disclaimer { color: var(--text-secondary); font-size: 0.9rem; border-left: 3px solid var(--border-color); padding-left: 0.75rem; }
+
+.reference-buttons { display: flex; gap: 0.5rem; margin-top: 0.5rem; }
+.reference-buttons a {
+    font-size: 0.9rem; text-decoration: none; color: var(--text-primary);
+    padding: 0.35rem 0.75rem; border-radius: 6px; border: 1px solid var(--border-color);
+}
+.reference-buttons a:hover { background-color: var(--bg-surface-hover); border-color: var(--text-secondary); }
+
+.code-block {
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 0.75rem;
+    font-family: var(--font-mono);
+    white-space: pre-wrap;
+}
+
+/* --- Forms para Simulador --- */
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+}
+.form-inline { display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; }
+.form-inline input { width: 100px; background-color: var(--bg-main); color: var(--text-primary); border: 1px solid var(--border-color); border-radius: 4px; padding: 0.4rem; font-family: var(--font-mono); }
+.btn {
+    background: none; color: var(--text-primary); border: 1px solid var(--border-color);
+    border-radius: 6px; padding: 0.5rem 1rem; font-size: 0.95rem; cursor: pointer; transition: all 0.2s;
+}
+.btn:hover { background-color: var(--bg-surface-hover); border-color: var(--text-secondary); }
+.result-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem; }
+
+/* Tabela de Ativos */
+.asset-screener table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.asset-screener th, .asset-screener td {
+    border-bottom: 1px solid var(--border-color);
+    padding: 0.8rem 1rem;
+    text-align: left;
+    vertical-align: middle;
+    font-family: var(--font-mono);
+}
+
+.asset-screener th {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+}
+
+.asset-screener tr:hover {
+    background-color: var(--bg-surface-hover);
+    cursor: pointer;
+}
+
+.asset-screener tr.selected {
+    background-color: rgba(0, 255, 0, 0.1);
+    border-left: 3px solid var(--color-green);
+}
+
+.asset-screener td:first-child {
+    font-weight: bold;
+    font-size: 1.1rem;
+    text-align: center;
+    color: var(--color-green);
+}
+
+/* Coluna de Links */
+.asset-screener .links a {
+    font-size: 0.8rem;
+    text-decoration: none;
+    color: var(--text-primary);
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    white-space: nowrap;
+}
+
+.asset-screener .links a:hover {
+    background-color: var(--bg-surface-hover);
+    border-color: var(--text-secondary);
+}
+
+/* --- Tooltip --- */
+.tooltip {
+    /* Styles unchanged, but will inherit new theme colors */
+    position: relative; display: inline-block; margin-left: 6px;
+    background-color: var(--text-secondary); color: var(--bg-main);
+    width: 16px; height: 16px; border-radius: 50%;
+    text-align: center; font-size: 11px; line-height: 16px;
+    cursor: help; vertical-align: middle;
+}
+.tooltip .tooltip-text {
+    visibility: hidden; width: 250px; background-color: var(--bg-surface);
+    color: var(--text-primary); text-align: left; text-transform: none;
+    border-radius: 6px; padding: 10px; position: absolute;
+    z-index: 1; bottom: 125%; left: 50%; margin-left: -125px;
+    opacity: 0; transition: opacity 0.2s; font-size: 14px;
+    font-weight: normal; border: 1px solid var(--border-color);
+}
+.tooltip:hover .tooltip-text { visibility: visible; opacity: 1; }
+
+/* --- Cabeçalho e Filtros --- */
+.screener-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 1rem;
+}
+.screener-header h2 { margin: 0; padding: 0; border: none; }
+
+.export-btn {
+    background: none; color: var(--text-secondary); border: 1px solid var(--border-color);
+    border-radius: 6px; padding: 0.5rem 1rem; font-size: 0.9rem;
+    cursor: pointer; transition: all 0.2s;
+}
+.export-btn:hover { background-color: var(--bg-surface-hover); border-color: var(--text-secondary); color: var(--text-primary); }
+
+.filter-bar { padding-bottom: 0.5rem; }
+.filter-group { margin-bottom: 1rem; }
+.filter-group label { font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 0.25rem; }
+.filter-group select, .filter-group input {
+    background-color: var(--bg-main); color: var(--text-primary);
+    padding: 0.6rem; border: 1px solid var(--border-color);
+    border-radius: 4px; font-size: 1rem; width: 100%;
+    box-sizing: border-box; font-family: var(--font-mono);
+}
+
+/* --- Gráfico --- */
+#chart-container { height: 400px; position: relative; }
+
+.chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+.chart-header h2 {
+    margin: 0; padding: 0; border: none;
+}
+
+.time-selector {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.time-selector button {
+    background: none;
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    padding: 0.3rem 0.8rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+.time-selector button:hover {
+    background-color: var(--bg-surface-hover);
+    color: var(--text-primary);
+}
+.time-selector button.active {
+    background-color: var(--color-green);
+    border-color: var(--color-green);
+    color: #000;
+    font-weight: bold;
+}
+
+
+/* Navigation hidden as per previous step */
+.main-nav, .preferences-page { display: none; }
+
+/* --- Layout Responsivo --- */
+@media (max-width: 1200px) {
+    .main-content {
+        grid-template-columns: 1fr; /* Coluna única em telas menores */
+    }
+
+    #chart-container {
+        height: 300px;
+    }
+
+    .container {
+        padding: 1rem;
+    }
+
+    .card {
+        padding: 1rem;
+    }
+
+    header h1 {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .asset-screener th, .asset-screener td {
+        padding: 0.5rem;
+        font-size: 0.9rem;
+    }
+    
+    .asset-screener td:first-child {
+        font-size: 1rem;
+    }
+
+    .screener-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+}
+
