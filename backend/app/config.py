@@ -8,6 +8,8 @@ class Settings(BaseSettings):
     REDIS_HOST: str
     SECRET_KEY: str
     BRAPI_TOKEN: str = ""
+    ALGORITHM: str = "HS256"
+    ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
 
     @property
     def DATABASE_URL(self) -> str:

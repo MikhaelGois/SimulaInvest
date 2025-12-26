@@ -1,0 +1,45 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Importar fonte Inter do Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+body {
+  @apply bg-primary-50 text-primary-700 font-sans antialiased;
+}
+
+/* Estilos globais para o tema cristão */
+@layer utilities {
+  .text-gradient-accent {
+    @apply bg-gradient-to-r from-accent to-accent-dark text-transparent bg-clip-text;
+  }
+
+  .text-gradient-secondary {
+    @apply bg-gradient-to-r from-secondary to-secondary-dark text-transparent bg-clip-text;
+  }
+}
+
+.btn-primary {
+  @apply bg-accent text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-accent-dark transition duration-300 ease-in-out;
+}
+
+.btn-secondary {
+  @apply bg-secondary text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-secondary-dark transition duration-300 ease-in-out;
+}
+
+.card {
+  @apply bg-white rounded-lg shadow-card p-6 border border-primary-200;
+}
+
+.input-field {
+  @apply w-full px-4 py-2 border border-primary-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent;
+}
+
+.header-text {
+  @apply text-3xl md:text-4xl font-bold text-primary-900;
+}
+
+.sub-header-text {
+  @apply text-xl md:text-2xl font-semibold text-primary-600;
+}
