@@ -1,4 +1,45 @@
-# Dependencies
+# General
+.DS_Store
+Thumbs.db
+*.log
+
+# Environment files
+.env
+**/.env
+.env.local
+.env.*.local
+
+# Node/JavaScript
+node_modules/
+app/node_modules/
+frontend/node_modules/
+app/.next/
+frontend/.next/
+app/out/
+frontend/build/
+
+# TypeScript build cache
+*.tsbuildinfo
+
+# Python
+backend/venv/
+venv/
+**/__pycache__/
+**/*.pyc
+
+# Docker
+.dockerignore
+*.pid
+
+# IDE/editor
+.vscode/
+.idea/
+
+# Coverage and temp
+coverage/
+.nyc_output/
+tmp/
+.cache/# Dependencies
 node_modules/
 .venv/
 __pycache__/

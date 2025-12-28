@@ -1,264 +1,122 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import Card from '../components/Card';
+import { getSymbolSnapshot } from '../services/api';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
 import LoadingSpinner from '../components/LoadingSpinner';
+import Card from '../components/Card';
 import { FaChartLine, FaDollarSign, FaPercent, FaStar, FaRegStar, FaExternalLinkAlt } from 'react-icons/fa';
-
-const API_BASE = 'http://localhost:8000/api/v1';
 
 interface SymbolData {
   ticker: string;
+  name: string;
   price: number;
-  change_percent: number | null;
-  dividend_yield: number | null;
+  change_percent: number;
+  market_cap: number;
+  dividend_yield: number;
   currency: string;
-  yahoo: any;
-  investidor10: any;
-  status_invest: any;
   links: {
-    google_finance: string;
-    yahoo_finance: string;
-    investidor10: string;
-    status_invest: string;
+    [source: string]: string;
   };
 }
 
 const SymbolDetailPage: React.FC = () => {
   const { ticker } = useParams<{ ticker: string }>();
-  const [symbolData, setSymbolData] = useState<SymbolData | null>(null);
+  const [data, setData] = useState<SymbolData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isFavorite, setIsFavorite] = useState(false);
 
   useEffect(() => {
-    if (ticker) {
-      loadSymbolData();
-      checkFavorite();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const loadData = async () => {
+      if (!ticker) return;
+      
+      setLoading(true);
+      setError(null);
+      
+      try {
+        const response = await getSymbolSnapshot(ticker);
+        setData(response.data);
+      } catch (err: any) {
+        setError(err.response?.data?.detail || 'Falha ao buscar dados do ativo.');
+        // Mock data for demonstration purposes if the API call fails
+        if (!data) {
+            setData({
+                ticker: ticker.toUpperCase(),
+                name: "Ativo de Exemplo",
+                price: 105.50,
+                change_percent: 1.25,
+                market_cap: 15000000000,
+                dividend_yield: 0.085,
+                currency: "BRL",
+                links: { google_finance: '#', yahoo_finance: '#', status_invest: '#' }
+            });
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadData();
+    checkFavorite();
   }, [ticker]);
 
-  const loadSymbolData = async () => {
-    if (!ticker) return;
-    setLoading(true);
-    setError(null);
-    try {
-      const response = await fetch(`${API_BASE}/symbols/quote/${ticker}`);
-      if (!response.ok) {
-        throw new Error('Falha ao buscar dados do ativo.');
-      }
-      const data: SymbolData = await response.json();
-      setSymbolData(data);
-    } catch (err: any) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   const checkFavorite = () => {
-    const stored = localStorage.getItem('favorites');
-    if (stored) {
-      const favs: string[] = JSON.parse(stored);
-      setIsFavorite(favs.includes(ticker || ''));
-    }
+    if (!ticker) return;
+    const favs = JSON.parse(localStorage.getItem('favorites') || '[]');
+    setIsFavorite(favs.includes(ticker));
   };
 
   const toggleFavorite = () => {
     if (!ticker) return;
-    const stored = localStorage.getItem('favorites');
-    let favs: string[] = stored ? JSON.parse(stored) : [];
-    
-    if (isFavorite) {
-      favs = favs.filter(t => t !== ticker);
-    } else {
-      favs.push(ticker);
-    }
-    
-    localStorage.setItem('favorites', JSON.stringify(favs));
+    const favs = JSON.parse(localStorage.getItem('favorites') || '[]');
+    const newFavs = isFavorite ? favs.filter((t: string) => t !== ticker) : [...favs, ticker];
+    localStorage.setItem('favorites', JSON.stringify(newFavs));
     setIsFavorite(!isFavorite);
   };
-
-  if (loading) {
-    return <LoadingSpinner />;
-  }
-
-  if (error) {
-    return (
-      <Card>
-        <div className="text-center text-danger text-lg py-8">
-          <p className="mb-4">Erro: {error}</p>
-          <Link to="/" className="btn-primary">Voltar para Home</Link>
-        </div>
-      </Card>
-    );
-  }
-
-  if (!symbolData) {
-    return (
-      <Card>
-        <div className="text-center text-primary-600 text-lg py-8">
-          <p className="mb-4">Ativo não encontrado.</p>
-          <Link to="/" className="btn-primary">Voltar para Home</Link>
-        </div>
-      </Card>
-    );
-  }
+  
+  if (loading) return <div className="flex justify-center items-center min-h-screen"><LoadingSpinner /></div>;
+  if (error) return <div className="container mx-auto p-4 text-center text-red-500">{error}</div>;
+  if (!data) return <div className="container mx-auto p-4 text-center">Nenhum dado encontrado para este ativo.</div>;
 
   return (
-    <div className="max-w-5xl mx-auto">
-      <div className="flex justify-between items-start mb-6">
-        <div>
-          <h1 className="header-text text-primary-900">
-            {symbolData.yahoo?.name || ticker} (<span className="text-accent-DEFAULT">{symbolData.ticker}</span>)
-          </h1>
-          <p className="text-primary-500 mt-1">Última atualização: {new Date().toLocaleString('pt-BR')}</p>
+    <div className="flex flex-col min-h-screen">
+      <Header />
+      <main className="flex-grow container mx-auto p-4">
+        <div className="flex justify-between items-center mb-6">
+            <h1 className="text-4xl font-bold">{data.name} ({data.ticker})</h1>
+            <button onClick={toggleFavorite} className="text-3xl text-yellow-400">
+                {isFavorite ? <FaStar /> : <FaRegStar />}
+            </button>
         </div>
-        <button
-          onClick={toggleFavorite}
-          className={`p-3 rounded-full ${isFavorite ? 'bg-secondary-DEFAULT text-white' : 'bg-primary-200 text-primary-600'} hover:opacity-80 transition duration-300`}
-          title={isFavorite ? "Remover da Watchlist" : "Adicionar à Watchlist"}
-        >
-          {isFavorite ? <FaStar className="text-2xl" /> : <FaRegStar className="text-2xl" />}
-        </button>
-      </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-        <Card title="Cotação Atual">
-          <p className="text-5xl font-bold text-primary-900 mb-2">
-            {symbolData.currency} {symbolData.price?.toFixed(2) || '-'}
-          </p>
-          {symbolData.change_percent !== null && (
-            <div className={`flex items-center mt-4 ${symbolData.change_percent >= 0 ? 'text-success' : 'text-danger'} font-semibold text-lg`}>
-              <FaChartLine className="mr-2" />
-              {symbolData.change_percent >= 0 ? '+' : ''}{symbolData.change_percent.toFixed(2)}%
-              <span className="text-sm ml-2 text-primary-500">(hoje)</span>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            <Card title="Cotação">
+                <p className="text-4xl font-bold">R$ {data.price.toFixed(2)}</p>
+                <p className={`flex items-center text-lg ${data.change_percent >= 0 ? 'text-green-500' : 'text-red-500'}`}>
+                    <FaChartLine className="mr-2" /> 
+                    {data.change_percent.toFixed(2)}%
+                </p>
+            </Card>
+            <Card title="Métricas">
+                <div className="space-y-2">
+                    <p className="flex justify-between"><span><FaDollarSign className="inline mr-2" />Valor de Mercado:</span> <strong>R$ {(data.market_cap / 1e9).toFixed(2)} Bi</strong></p>
+                    <p className="flex justify-between"><span><FaPercent className="inline mr-2" />Dividend Yield:</span> <strong>{(data.dividend_yield * 100).toFixed(2)}%</strong></p>
+                </div>
+            </Card>
+        </div>
+
+        <Card title="Links de Análise">
+            <div className="flex flex-wrap gap-4">
+                {Object.entries(data.links).map(([source, url]) => (
+                    <a href={url} key={source} target="_blank" rel="noopener noreferrer" className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors flex items-center">
+                        {source.replace('_', ' ')} <FaExternalLinkAlt className="ml-2" />
+                    </a>
+                ))}
             </div>
-          )}
         </Card>
-
-        <Card title="Métricas Chave">
-          <div className="space-y-3">
-            {symbolData.yahoo?.market_cap && (
-              <div className="flex justify-between items-center">
-                <span className="text-primary-600 flex items-center">
-                  <FaDollarSign className="mr-2 text-primary-400" />
-                  Valor de Mercado:
-                </span>
-                <span className="font-semibold text-primary-800">
-                  {symbolData.currency} {(symbolData.yahoo.market_cap / 1_000_000_000).toFixed(2)}B
-                </span>
-              </div>
-            )}
-            {symbolData.dividend_yield && (
-              <div className="flex justify-between items-center">
-                <span className="text-primary-600 flex items-center">
-                  <FaPercent className="mr-2 text-primary-400" />
-                  Dividend Yield (TTM):
-                </span>
-                <span className="font-semibold text-accent-DEFAULT">
-                  {(symbolData.dividend_yield * 100).toFixed(2)}%
-                </span>
-              </div>
-            )}
-            {symbolData.yahoo?.previous_close && (
-              <div className="flex justify-between items-center">
-                <span className="text-primary-600 flex items-center">
-                  <FaChartLine className="mr-2 text-primary-400" />
-                  Fechamento Anterior:
-                </span>
-                <span className="font-semibold text-primary-800">
-                  {symbolData.currency} {symbolData.yahoo.previous_close.toFixed(2)}
-                </span>
-              </div>
-            )}
-          </div>
-        </Card>
-      </div>
-
-      {/* Links Externos */}
-      <Card title="Análise Detalhada" className="mb-8">
-        <p className="text-primary-600 mb-4">
-          Acesse análises completas deste ativo nos principais sites de investimentos:
-        </p>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-          <a
-            href={symbolData.links.google_finance}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-primary text-center flex items-center justify-center gap-2"
-          >
-            Google Finance <FaExternalLinkAlt className="text-xs" />
-          </a>
-          <a
-            href={symbolData.links.yahoo_finance}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-primary text-center flex items-center justify-center gap-2"
-          >
-            Yahoo Finance <FaExternalLinkAlt className="text-xs" />
-          </a>
-          <a
-            href={symbolData.links.investidor10}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-secondary text-center flex items-center justify-center gap-2"
-          >
-            Investidor10 <FaExternalLinkAlt className="text-xs" />
-          </a>
-          <a
-            href={symbolData.links.status_invest}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-secondary text-center flex items-center justify-center gap-2"
-          >
-            Status Invest <FaExternalLinkAlt className="text-xs" />
-          </a>
-        </div>
-      </Card>
-
-      {/* Fontes de Dados */}
-      <Card title="Dados Consolidados" className="mb-8">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="border border-primary-200 rounded p-3">
-            <h4 className="font-semibold text-primary-800 mb-2 flex items-center">
-              <span className="w-2 h-2 bg-accent-DEFAULT rounded-full mr-2"></span>
-              Yahoo Finance
-            </h4>
-            <p className="text-sm text-primary-600">
-              {symbolData.yahoo ? 'Dados disponíveis' : 'Indisponível'}
-            </p>
-          </div>
-          <div className="border border-primary-200 rounded p-3">
-            <h4 className="font-semibold text-primary-800 mb-2 flex items-center">
-              <span className="w-2 h-2 bg-secondary-DEFAULT rounded-full mr-2"></span>
-              Investidor10
-            </h4>
-            <p className="text-sm text-primary-600">
-              {symbolData.investidor10 ? 'Dados disponíveis' : 'Indisponível'}
-            </p>
-          </div>
-          <div className="border border-primary-200 rounded p-3">
-            <h4 className="font-semibold text-primary-800 mb-2 flex items-center">
-              <span className="w-2 h-2 bg-accent-DEFAULT rounded-full mr-2"></span>
-              Status Invest
-            </h4>
-            <p className="text-sm text-primary-600">
-              {symbolData.status_invest ? 'Dados disponíveis' : 'Indisponível'}
-            </p>
-          </div>
-        </div>
-      </Card>
-
-      {/* Ações */}
-      <div className="flex flex-col md:flex-row gap-4 justify-center">
-        <Link to={`/simulator?ticker=${ticker}`} className="btn-primary text-lg px-8 py-3 text-center">
-          Simular Lucro-Alvo para {ticker}
-        </Link>
-        <button onClick={toggleFavorite} className="btn-secondary text-lg px-8 py-3">
-          {isFavorite ? 'Remover da Watchlist' : 'Adicionar à Watchlist'}
-        </button>
-      </div>
+      </main>
+      <Footer />
     </div>
   );
 };
